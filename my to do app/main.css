@@ -2,3 +2,8 @@
     background-color: #007bff !important;
     color: white !important;
 }
+
+.active-importance-btn{
+    color: white !important;
+    background-color: red;
+}

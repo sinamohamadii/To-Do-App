@@ -24,8 +24,13 @@ const notesContainer = document.querySelector("#notes_container");
 let titleInput = document.querySelector("#note_title_input");
 let descriptionInput = document.querySelector("#note_description_input");
 let nowDate = new Date();
+let index = 1;
+let indexArray = [1];
 
 function addNewNote() {
+
+    index++;
+    indexArray.push(index);
 
     if (titleInput.value == "" || descriptionInput.value == "") {
         alert("Please fill all the fields. Thanks");
@@ -43,7 +48,7 @@ function addNewNote() {
                     </div>
                     <div class="w-full px-5 flex justify-between items-center">
                         <div class="">
-                            <button class="hover:text-gray-600">
+                            <button class="hover:text-gray-600" onclick="removeNote(${index})">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                 </svg>
@@ -59,9 +64,12 @@ function addNewNote() {
                                 -->
                             </button>
                         </div>
-                        <div class="">
-                            <button class="text-red-500 px-3 py-2 rounded-md hover:text-red-300">Important</button>
-                        </div>
+                        <button 
+                            data-importance="false"
+                            class="text-red-500 px-3 py-2 rounded-md hover:text-red-300" 
+                            onclick="importance(this, ${index})">
+                            Important
+                        </button>
                     </div>
                 </div>
             </div>`;
@@ -74,7 +82,19 @@ function addNewNote() {
 }
 
 /* use to delete a note */
-function removeNote(el) {
+function removeNote(n) {
+
+    for (var i = 0; i < indexArray.length; i++) {
+
+        if (indexArray[i] === n) {
+            notesContainer.removeChild(notesContainer.children[i]);
+            indexArray.splice(i, 1);
+        }
+    }
+
+    if (n === 1) {
+        index = 0;
+    }
 
 }
 
@@ -87,14 +107,67 @@ const starfill = `<svg width="16" height="16" fill="currentColor" class="bi bi-s
 </svg>`;
 
 function starNote(el) {
-    console.log("done");
+
     if (el.dataset.active === "false") {
         el.innerHTML = starfill;
         el.dataset.active = "true";
     }
-    else if(el.dataset.active === "true") {
+    else if (el.dataset.active === "true") {
         el.innerHTML = star;
         el.dataset.active = "false";
+    }
+
+}
+
+/* to make important note */
+function importance(el, n) {
+
+    if (el.dataset.importance === "true") {
+        el.classList.remove("active-importance-btn");
+        el.dataset.importance = "false";
+        console.log("false");
+
+        for (var i = 0; i < indexArray.length; i++) {
+            let clone = notesContainer.children[i].cloneNode(true);
+
+            if (indexArray[i] === n) {
+                importantNotesContainer.removeChild(clone);
+            }
+        }
+    } 
+    else if(el.dataset.importance === "false") {
+        el.classList.add("active-importance-btn");
+        el.dataset.importance = "true";
+        console.log("true");
+
+        for (var i = 0; i < indexArray.length; i++) {
+            let clone = notesContainer.children[i].cloneNode(true);
+
+            if (indexArray[i] === n) {
+                importantNotesContainer.appendChild(clone);
+            }
+        }
+    }
+
+}
+
+/* use to switch tab */
+const importantNotesContainer = document.querySelector("#important_notes_container");
+const tab = document.querySelector("#tab");
+const importantTab = document.querySelector("#important_tab");
+
+function switchTab(n) {
+
+    if (n === 1) {
+        replaceClass(notesContainer, "hidden", "flex");
+        tab.classList.add("active-tab");
+        replaceClass(importantNotesContainer, "flex", "hidden");
+        importantTab.classList.remove("active-tab");
+    } else {
+        replaceClass(notesContainer, "flex", "hidden");
+        tab.classList.remove("active-tab");
+        replaceClass(importantNotesContainer, "hidden", "flex");
+        importantTab.classList.add("active-tab");
     }
 
 }

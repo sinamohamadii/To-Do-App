@@ -24,13 +24,15 @@ const notesContainer = document.querySelector("#notes_container");
 let titleInput = document.querySelector("#note_title_input");
 let descriptionInput = document.querySelector("#note_description_input");
 let nowDate = new Date();
-let index = 1;
-let indexArray = [1];
+let nowShortDate = nowDate.getFullYear() + "/" + (nowDate.getMonth() + 1) + "/" + nowDate.getDay();
+let index = 0;
+let indexArray = [];
 
 function addNewNote() {
 
     index++;
     indexArray.push(index);
+    console.log(indexArray);
 
     if (titleInput.value == "" || descriptionInput.value == "") {
         alert("Please fill all the fields. Thanks");
@@ -39,11 +41,11 @@ function addNewNote() {
         notesContainer.innerHTML +=
             `<div class="note-${index} px-2 w-full xs:w-1/2 md:!w-1/3 lg:!w-1/4 self-start">
                 <div class="w-full h-auto rounded-xl bg-white py-3 flex flex-col gap-y-5 overflow-hidden">
-                    <div class="w-full border-l-[5px] border-gray-500 h-auto pl-5 flex flex-col">
+                    <div class="w-full border-l-[5px] border-gray-500 h-auto px-5 flex flex-col">
                         <span class="font-semibold">${titleInput.value}</span>
-                        <span class="text-gray-400">${nowDate}</span>
+                        <span class="text-gray-400">${nowShortDate}</span>
                     </div>
-                    <div class="w-full pl-5">
+                    <div class="w-full px-5">
                         <p>${descriptionInput.value}</p>
                     </div>
                     <div class="w-full px-5 flex justify-between items-center">
@@ -73,11 +75,27 @@ function addNewNote() {
                     </div>
                 </div>
             </div>`;
+
+
+        /* for local storage */
+        function noteData(title, date, description) {
+
+            this.title = title;
+            this.date = date;
+            this.description = description;
+
+        }
+
+        let note = new noteData(titleInput.value, nowShortDate, descriptionInput.value);
+
+        /* to clear inputs */
         titleInput.value = "";
         descriptionInput.value = "";
         newNoteModal.classList.add("hidden");
         newNoteModalToggle = "close";
+
     }
+
     replaceClass(notesContainer, "hidden", "flex");
     tab.classList.add("active-tab");
     replaceClass(importantNotesContainer, "flex", "hidden");
@@ -94,6 +112,17 @@ function removeNote(n) {
     for (i = 0; i < note.length; i++) {
         note[i].remove();
     }
+
+    for (i = 0; i < indexArray.length; i++) {
+
+        if (indexArray[i] === n) {
+
+            indexArray.splice(i, 1);
+        }
+
+    }
+    console.log(indexArray);
+
 
 }
 

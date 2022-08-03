@@ -23,42 +23,8 @@
                 </div>
             </div>
             <div id="notes_container" class="w-full h-auto flex items-center justify-start flex-wrap gap-y-2">
-                <div class="note-1 px-2 w-full xs:w-1/2 md:!w-1/3 lg:!w-1/4 self-start">
-                    <div class="w-full h-auto rounded-xl bg-white py-3 flex flex-col gap-y-5 overflow-hidden">
-                        <div class="w-full border-l-[5px] border-gray-500 h-auto pl-5 flex flex-col">
-                            <span class="font-semibold">Note Title</span>
-                            <span class="text-gray-400">54/87/87</span>
-                        </div>
-                        <div class="w-full pl-5">
-                            <p>Note Description</p>
-                        </div>
-                        <div class="w-full px-5 flex justify-between items-center">
-                            <div class="">
-                                <button class="hover:text-gray-600" onclick="removeNote(1)">
-                                    <svg width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                    </svg>
-                                </button>
-                                <button class="text-yellow-600 hover:text-yellow-500" onclick="starNote(this, 1)" data-active="false">
-                                    <svg width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="">
-                                <button 
-                                    data-importance="false"
-                                    class="note-btn-1 text-red-500 px-3 py-2 rounded-md hover:text-red-300" 
-                                    onclick="importance(this, 1)">
-                                    Important
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div id="important_notes_container" class="w-full h-auto hidden items-center justify-start flex-wrap gap-y-2">
-
             </div>
             <div id="new_note_modal" class="hidden" data-toggle="close">
                 <div class="w-screen h-screen bg-black fixed top-0 left-0 bg-opacity-50">
@@ -71,7 +37,13 @@
                         </div>
                         <form class="p-3 flex flex-col gap-y-3">
                             <label for="">Note Title</label>
-                            <input id="note_title_input" type="text" class="border p-1 border-gray-400 rounded" placeholder="Title" />
+                            <input 
+                                id="note_title_input" 
+                                type="text" 
+                                class="border p-1 border-gray-400 rounded" 
+                                placeholder="Title" 
+                                maxlength = "33"
+                                />
                             <label for="">Note Description</label>
                             <textarea 
                                 name="" 
@@ -79,7 +51,8 @@
                                 cols="30" 
                                 rows="10" 
                                 class="border p-1 border-gray-400 rounded" 
-                                placeholder="Description"></textarea>
+                                placeholder="Description"
+                                maxlength = "200"></textarea>
                         </form>
                         <div class="p-3 self-end gap-x-4">
                             <button class="text-[#17a2b8] hover:text-[#20bad1]" onclick="newNoteModalCollapse()">Discard</button>
